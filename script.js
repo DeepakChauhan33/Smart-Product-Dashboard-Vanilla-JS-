@@ -6,9 +6,14 @@ loadBtn.addEventListener('click', getProducts);
 function card(data) {
 
     const box = document.createElement('div');
+    box.classList.add('border', 'p-4', 'rounded-lg', 'shadow-md', 'flex', 'flex-col', 'items-center', 'text-center');
+
     const image = document.createElement('img');
     const heading = document.createElement('h3');
-    const price = document.createElement('span');
+
+    const cant = document.createElement('div');
+    cant.classList.add('flex', 'border-2', 'border-orange-500');
+    const price = document.createElement('p');
     const rating = document.createElement('p');
 
     image.src = data.thumbnail;
@@ -19,8 +24,9 @@ function card(data) {
     rating.innerText = data.rating;
 
     box.appendChild(image);
-    box.appendChild(heading);
-    box.appendChild(price)
+    cant.appendChild(heading);
+    cant.appendChild(price);
+    box.appendChild(cant);
     box.appendChild(rating)
 
 
