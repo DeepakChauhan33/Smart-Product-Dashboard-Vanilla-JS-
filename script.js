@@ -6,7 +6,7 @@ loadBtn.addEventListener('click', getProducts);
 function card(data) {
 
     const box = document.createElement('div');
-    box.classList.add('border', 'p-4', 'rounded-lg', 'shadow-md', 'flex', 'flex-col', 'items-center', 'text-center');
+    box.classList.add('border', 'p-4', 'rounded-lg', 'shadow-md', 'flex', 'flex-col', 'items-center', 'text-center', 'min-w-[400px]', 'max-w-[200px]', 'gap-4');
 
     const image = document.createElement('img');
     const heading = document.createElement('h3');
