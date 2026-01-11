@@ -65,6 +65,17 @@ async function getProducts() {
 }
 
 
+function addToCart() {
+    const cartItem = document.createElement('tr');
+
+    cartItem.innerHTML = `
+        <td></td>
+        <td>Otto</td>
+        <td>@mdo</td>
+    `
+}
+
+
 // onload = function () {
 //     getProducts();
 // }
