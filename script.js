@@ -6,15 +6,15 @@ const loadBtn = document.querySelector('.loadBtn');
 function card(data) {
 
     const box = document.createElement('div');
-    box.classList.add('border',  'p-4', 'rounded-lg', 'shadow-md', 'flex', 'flex-col', 'items-start', 'min-w-[400px]', 'max-w-[200px]', 'gap-4');
+    box.classList.add('border', 'border-gray-500', 'p-4', 'rounded-lg', 'shadow-md', 'flex', 'flex-col', 'items-start', 'w-[350px]', 'lg:w-[450px]', 'gap-2', 'lg:gap-4');
 
-    box.innerHTML = ` <div class="h-1/2 w-full">
+    box.innerHTML = ` <div class="h-[270px] lg:h-[300px] w-full bg-gray-100">
             <img src="${data.thumbnail}"
-                alt="${data.title}" class="w-full h-full object-cover rounded-md">
+                alt="${data.title}" class="w-full h-full object-contain rounded-md">
         </div>
-        <h3 class="text-2xl text-start font-semibold">${data.title}</h3>
+        <h3 class="text-sm lg:text-2xl text-start font-semibold">${data.title}</h3>
 
-        <p class="text-sm text-start">
+        <p class="text-[12px] lg:text-sm text-start">
             ${data.description}
         </p>
 
@@ -33,40 +33,17 @@ function card(data) {
         <div class="w-full flex justify-between items-center mt-4">
             <div>
                 <p class="text-[16px] font-medium text-gray-700">Price</p>
-                <p class="text-3xl font-bold text-gray-800">${data.price}</p>
+                <p class="text-xl lg:text-3xl font-bold text-gray-800">$${data.price}</p>
             </div>
 
             <button
-                class="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                class="flex items-center gap-2 bg-blue-600 text-sm lg:text-[16px] text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
                 <i class="fa-solid fa-cart-arrow-down"></i> Add to cart
             </button>
-        </div>
-
-`
-
-    // const image = document.createElement('img');
-    // const heading = document.createElement('h3');
-
-    // const cant = document.createElement('div');
-    // cant.classList.add('flex', 'border-2', 'border-orange-500');
-    // const price = document.createElement('p');
-    // const rating = document.createElement('p');
-
-    // image.src = data.thumbnail;
-    // image.alt = data.title;
-
-    // heading.innerText = data.title;
-    // price.innerText = data.price;
-    // rating.innerText = data.rating;
-
-    // box.appendChild(image);
-    // cant.appendChild(heading);
-    // cant.appendChild(price);
-    // box.appendChild(cant);
-    // box.appendChild(rating)
-
+        </div>`;
 
     return box;
+
 }
 
 
@@ -80,7 +57,7 @@ async function getProducts() {
 
 
         products.slice(0, 12).forEach(product => {
-          ProductCant.appendChild(card(product))
+            ProductCant.appendChild(card(product))
         })
     } catch (err) {
         console.log(err);
@@ -88,7 +65,7 @@ async function getProducts() {
 }
 
 
-onload = function() {
-    getProducts();
-}
+// onload = function () {
+//     getProducts();
+// }
 
