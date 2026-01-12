@@ -4,6 +4,7 @@ const tableBody = document.querySelector('.tableBody');
 
 
 
+
 function card(data) {
 
     const box = document.createElement('div');
@@ -70,15 +71,39 @@ async function getProducts() {
 }
 
 
+function calculateCartTotal(){
+
+    let total = 0;
+
+    const allPriceItems = document.querySelectorAll('.cartItem');
+
+    allPriceItems.forEach(item=>{
+        const price = item.children[1].innerText;
+        total += parseFloat(price);
+    });
+
+    return total;
+}
+
+
 
 function addToCart(data) {
     const cartItem = document.createElement('tr');
+    cartItem.className="cartItem";
 
     cartItem.innerHTML = `
        <td>${data.title}</td>
        <td>${data.price}</td>
-       <td>456183</td>
+       <td>
+            <button class="removeBtn py-2 px-3 bg-red-500 rounded-md text-white ">Remove</button>
+       </td>
     `
+
+    const removeBtn = cartItem.querySelector('.removeBtn');
+
+    removeBtn.addEventListener('click', ()=>{
+        cartItem.remove();
+    })
 
 
     tableBody.appendChild(cartItem);
@@ -86,7 +111,9 @@ function addToCart(data) {
 }
 
 
-onload = function () {
-    getProducts();
-}
+
+
+// onload = function () {
+//     getProducts();
+// }
 
