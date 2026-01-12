@@ -1,5 +1,6 @@
 const ProductCant = document.querySelector('.productCant');
 const loadBtn = document.querySelector('.loadBtn');
+const tableBody = document.querySelector('.tableBody');
 
 
 
@@ -37,10 +38,18 @@ function card(data) {
             </div>
 
             <button
-                class="flex items-center gap-2 bg-blue-600 text-sm lg:text-[16px] text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                <i class="fa-solid fa-cart-arrow-down"></i> Add to cart
+                class="cartBtn flex items-center gap-2 bg-blue-600 text-sm lg:text-[16px] text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                <i class="fa-solid fa-cart-arrow-down pointer-events-none"></i> Add to cart
             </button>
         </div>`;
+
+    const cartBtn = box.querySelector('.cartBtn');
+
+    cartBtn.addEventListener('click', () => {
+        addToCart(data);
+    });
+
+
 
     return box;
 
@@ -52,10 +61,6 @@ async function getProducts() {
 
         const item = await axios.get("https://dummyjson.com/products");
         const products = item.data.products;
-
-        console.log(products);
-
-
         products.slice(0, 12).forEach(product => {
             ProductCant.appendChild(card(product))
         })
@@ -65,18 +70,23 @@ async function getProducts() {
 }
 
 
-function addToCart() {
+
+function addToCart(data) {
     const cartItem = document.createElement('tr');
 
     cartItem.innerHTML = `
-        <td></td>
-        <td>Otto</td>
-        <td>@mdo</td>
+       <td>${data.title}</td>
+       <td>${data.price}</td>
+       <td>456183</td>
     `
+
+
+    tableBody.appendChild(cartItem);
+
 }
 
 
-// onload = function () {
-//     getProducts();
-// }
+onload = function () {
+    getProducts();
+}
 
