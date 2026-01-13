@@ -48,6 +48,7 @@ function card(data) {
 
     cartBtn.addEventListener('click', () => {
         addToCart(data);
+        calculateCartTotal();
     });
 
 
@@ -62,7 +63,7 @@ async function getProducts() {
 
         const item = await axios.get("https://dummyjson.com/products");
         const products = item.data.products;
-        products.slice(0, 12).forEach(product => {
+        products.slice(0, 30).forEach(product => {
             ProductCant.appendChild(card(product))
         })
     } catch (err) {
@@ -78,11 +79,13 @@ function calculateCartTotal(){
     const allPriceItems = document.querySelectorAll('.cartItem');
 
     allPriceItems.forEach(item=>{
-        const price = item.children[1].innerText;
-        total += parseFloat(price);
+       total += Number(item.children[1].innerText);
     });
 
+
+
     return total;
+
 }
 
 
@@ -105,15 +108,28 @@ function addToCart(data) {
         cartItem.remove();
     })
 
+    const cartTotal = document.createElement('tr');
+    cartTotal.className="cartTotal";
+
+    cartTotal.innerHTML = `
+    
+       <td>Total</td>
+       <td id="totalPrice">${calculateCartTotal()}</td>`
+
+
 
     tableBody.appendChild(cartItem);
+    tableBody.appendChild(cartTotal);
 
 }
 
 
 
 
-// onload = function () {
-//     getProducts();
-// }
+onload = function () {
+    getProducts();
+}
 
+ function abc(){
+    console.log("456")
+ }
