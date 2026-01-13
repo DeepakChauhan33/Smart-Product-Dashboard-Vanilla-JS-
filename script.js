@@ -126,9 +126,9 @@ function addToCart(data) {
 
 
 
-onload = function () {
-    getProducts();
-}
+// onload = function () {
+//     getProducts();
+// }
 
  function abc(){
     console.log("456")
