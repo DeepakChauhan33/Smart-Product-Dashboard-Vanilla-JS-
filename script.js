@@ -2,15 +2,20 @@ const ProductCant = document.querySelector('.productCant');
 const loadBtn = document.querySelector('.loadBtn');
 const tableBody = document.querySelector('.tableBody');
 
+let allProducts = []; // It will store all products data
 
 
 
 function card(data) {
 
     const box = document.createElement('div');
-    box.classList.add('border', 'border-gray-500', 'p-4', 'rounded-lg', 'shadow-md', 'flex', 'flex-col', 'items-start', 'w-[350px]', 'lg:w-[450px]', 'gap-2', 'lg:gap-4');
-
-    box.innerHTML = ` <div class="h-[270px] lg:h-[300px] w-full bg-gray-100">
+    box.classList.add('border', 'border-gray-500', 'p-4', 'rounded-lg', 'shadow-md', 'flex', 'flex-col', 'items-start', 'w-[350px]', 'lg:w-[450px]', 'gap-2', 'lg:gap-4',);
+    box.dataset.id = data.id;    // To use Event Delegation So I store the value of item, So when I click on the button I can get the id of the product Because we can't pass parameters in Event Delegation
+    box.innerHTML = ` 
+    
+            
+    
+    <div class="h-[270px] lg:h-[300px] w-full bg-gray-100">
             <img src="${data.thumbnail}"
                 alt="${data.title}" class="w-full h-full object-contain rounded-md">
         </div>
@@ -44,24 +49,19 @@ function card(data) {
             </button>
         </div>`;
 
-    const cartBtn = box.querySelector('.cartBtn');
-
-    cartBtn.addEventListener('click', () => {
-        addToCart(data);
-        calculateCartTotal();
-    });
-
-
 
     return box;
 
 }
 
 
+
+
 async function getProducts() {
     try {
 
         const item = await axios.get("https://dummyjson.com/products");
+        allProducts = item.data.products;
         const products = item.data.products;
         products.slice(0, 30).forEach(product => {
             ProductCant.appendChild(card(product))
@@ -72,27 +72,41 @@ async function getProducts() {
 }
 
 
-function calculateCartTotal(){
+ProductCant.addEventListener("click", function (e) {   // Event Delegation 
 
-    let total = 0;
+    const btn = e.target.closest(".cartBtn");  //
+    if (!btn) return;
 
-    const allPriceItems = document.querySelectorAll('.cartItem');
+    const card = btn.closest("div[data-id]");
+    const productId = Number(card.dataset.id);
 
-    allPriceItems.forEach(item=>{
-       total += Number(item.children[1].innerText);
-    });
+    const productData = allProducts.find(p => p.id === productId);
+
+    addToCart(productData);
+});
+
+
+// function calculateCartTotal() {
+
+//     let total = 0;
+
+//     const allPriceItems = document.querySelectorAll('.cartItem');
+
+//     allPriceItems.forEach(item => {
+//         total += Number(item.children[1].innerText);
+//     });
 
 
 
-    return total;
+//     return total;
 
-}
+// }
 
 
 
 function addToCart(data) {
     const cartItem = document.createElement('tr');
-    cartItem.className="cartItem";
+    cartItem.className = "cartItem";
 
     cartItem.innerHTML = `
        <td>${data.title}</td>
@@ -104,12 +118,12 @@ function addToCart(data) {
 
     const removeBtn = cartItem.querySelector('.removeBtn');
 
-    removeBtn.addEventListener('click', ()=>{
+    removeBtn.addEventListener('click', () => {
         cartItem.remove();
     })
 
     const cartTotal = document.createElement('tr');
-    cartTotal.className="cartTotal";
+    cartTotal.className = "cartTotal";
 
     cartTotal.innerHTML = `
     
@@ -126,10 +140,10 @@ function addToCart(data) {
 
 
 
-// onload = function () {
-//     getProducts();
-// }
+onload = function () {
+    getProducts();
+}
 
- function abc(){
+function abc() {
     console.log("456")
- }
+}
