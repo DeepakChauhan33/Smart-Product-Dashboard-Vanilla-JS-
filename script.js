@@ -9,6 +9,7 @@ let allProducts = []; // It will store all products data
 function card(data) {
 
     const box = document.createElement('div');
+    box.className = "box";
     box.classList.add('border', 'border-gray-500', 'p-4', 'rounded-lg', 'shadow-md', 'flex', 'flex-col', 'items-start', 'w-[350px]', 'lg:w-[450px]', 'gap-2', 'lg:gap-4',);
     box.dataset.id = data.id;    // To use Event Delegation So I store the value of item, So when I click on the button I can get the id of the product Because we can't pass parameters in Event Delegation
     box.innerHTML = ` 
@@ -75,32 +76,34 @@ async function getProducts() {
 ProductCant.addEventListener("click", function (e) {   // Event Delegation 
 
     const btn = e.target.closest(".cartBtn");  //
-    if (!btn) return;
+    if (!btn) return;   // Here we check if the clicked element is not a button then we return without doing anything
 
-    const card = btn.closest("div[data-id]");
-    const productId = Number(card.dataset.id);
+    // And if it is a button then we find the closest card div using data-id attribute
 
-    const productData = allProducts.find(p => p.id === productId);
+    const card = btn.closest(".box");       // Here we get the closest parent element with the class 'box' 
+    const productId = Number(card.dataset.id); // Get the product id from data-id attribute and convert it to number
+
+    const productData = allProducts.find(p => p.id === productId); // Find the product data from allProducts array using the id
 
     addToCart(productData);
 });
 
 
-// function calculateCartTotal() {
+function calculateCartTotal() {
 
-//     let total = 0;
+    let total = 0;
 
-//     const allPriceItems = document.querySelectorAll('.cartItem');
+    const allPriceItems = document.querySelectorAll('.cartItem');
 
-//     allPriceItems.forEach(item => {
-//         total += Number(item.children[1].innerText);
-//     });
+    allPriceItems.forEach(item => {
+        total += Number(item.children[1].innerText);
+    });
 
 
 
-//     return total;
+    return total;
 
-// }
+}
 
 
 
