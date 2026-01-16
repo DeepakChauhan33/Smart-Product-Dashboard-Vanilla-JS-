@@ -1,6 +1,15 @@
 const ProductCant = document.querySelector('.productCant');
 const loadBtn = document.querySelector('.loadBtn');
 const tableBody = document.querySelector('.tableBody');
+const totalRow = document.querySelector('.totalRow');
+let totalPrice = document.querySelector('.totalPrice');
+
+
+
+
+
+let cartItemCount = 0;
+
 
 let allProducts = []; // It will store all products data
 
@@ -64,13 +73,15 @@ async function getProducts() {
         const item = await axios.get("https://dummyjson.com/products");
         allProducts = item.data.products;
         const products = item.data.products;
-        products.slice(0, 30).forEach(product => {
+        products.slice(0, 8).forEach(product => {
             ProductCant.appendChild(card(product))
         })
     } catch (err) {
         console.log(err);
     }
 }
+
+
 
 
 ProductCant.addEventListener("click", function (e) {   // Event Delegation 
@@ -86,24 +97,10 @@ ProductCant.addEventListener("click", function (e) {   // Event Delegation
     const productData = allProducts.find(p => p.id === productId); // Find the product data from allProducts array using the id
 
     addToCart(productData);
+    checkCartEmpty();
 });
 
 
-function calculateCartTotal() {
-
-    let total = 0;
-
-    const allPriceItems = document.querySelectorAll('.cartItem');
-
-    allPriceItems.forEach(item => {
-        total += Number(item.children[1].innerText);
-    });
-
-
-
-    return total;
-
-}
 
 
 
@@ -119,24 +116,25 @@ function addToCart(data) {
        </td>
     `
 
+    totalPrice.textContent = `$${(Number(totalPrice.textContent.slice(1)) + data.price).toFixed(2)}`;
+
+    cartItemCount++;
+
     const removeBtn = cartItem.querySelector('.removeBtn');
 
     removeBtn.addEventListener('click', () => {
         cartItem.remove();
+        cartItemCount--;
+        totalPrice.textContent = `$${(Number(totalPrice.textContent.slice(1)) - data.price).toFixed(2)}`;
+        checkCartEmpty();
     })
-
-    const cartTotal = document.createElement('tr');
-    cartTotal.className = "cartTotal";
-
-    cartTotal.innerHTML = `
-    
-       <td>Total</td>
-       <td id="totalPrice">${calculateCartTotal()}</td>`
 
 
 
     tableBody.appendChild(cartItem);
-    tableBody.appendChild(cartTotal);
+
+
+    // totalRow.classList.remove('hidden');
 
 }
 
@@ -147,6 +145,14 @@ onload = function () {
     getProducts();
 }
 
-function abc() {
-    console.log("456")
-}
+
+
+ function checkCartEmpty() {
+       if (cartItemCount > 0){
+         totalRow.classList.remove('hidden');
+    }else{
+            totalRow.classList.add('hidden');
+    }
+
+
+ }
