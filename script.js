@@ -141,18 +141,18 @@ function addToCart(data) {
 
 
 
-onload = function () {
-    getProducts();
-}
+// onload = function () {
+//     getProducts();
+// }
 
 
 
- function checkCartEmpty() {
-       if (cartItemCount > 0){
-         totalRow.classList.remove('hidden');
-    }else{
-            totalRow.classList.add('hidden');
+function checkCartEmpty() {
+    if (cartItemCount > 0) {
+        totalRow.classList.remove('hidden');
+    } else {
+        totalRow.classList.add('hidden');
     }
 
 
- }
+}
