@@ -1,158 +1,207 @@
+/*************************************************
+ * DOM ELEMENT REFERENCES
+ *************************************************/
 const ProductCant = document.querySelector('.productCant');
 const loadBtn = document.querySelector('.loadBtn');
 const tableBody = document.querySelector('.tableBody');
 const totalRow = document.querySelector('.totalRow');
 let totalPrice = document.querySelector('.totalPrice');
+const searchInput = document.querySelector(".searchInput");
 
 
-
-
-
+/*************************************************
+ * GLOBAL STATE VARIABLES
+ *************************************************/
 let cartItemCount = 0;
+let allProducts = []; // Stores all fetched products (used for search & cart)
 
 
-let allProducts = []; // It will store all products data
+/*************************************************
+ * DEBOUNCE UTILITY FUNCTION
+ * Prevents excessive function calls (search input)
+ *************************************************/
+function debounce(fn, delay) {
+  let timer;
+
+  return function (...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn.apply(this, args);
+    }, delay);
+  };
+}
 
 
-
+/*************************************************
+ * PRODUCT CARD CREATION FUNCTION
+ * Creates and returns a product card DOM element
+ *************************************************/
 function card(data) {
+  const box = document.createElement('div');
 
-    const box = document.createElement('div');
-    box.className = "box";
-    box.classList.add('border', 'border-gray-500', 'p-4', 'rounded-lg', 'shadow-md', 'flex', 'flex-col', 'items-start', 'w-[350px]', 'lg:w-[450px]', 'gap-2', 'lg:gap-4',);
-    box.dataset.id = data.id;    // To use Event Delegation So I store the value of item, So when I click on the button I can get the id of the product Because we can't pass parameters in Event Delegation
-    box.innerHTML = ` 
-    
-            
-    
+  box.className = "box";
+  box.classList.add(
+    'border', 'border-gray-500', 'p-4', 'rounded-lg',
+    'shadow-md', 'flex', 'flex-col', 'items-start',
+    'w-[350px]', 'lg:w-[450px]', 'gap-2', 'lg:gap-4'
+  );
+
+  // Store product ID for Event Delegation
+  box.dataset.id = data.id;
+
+  box.innerHTML = `
     <div class="h-[270px] lg:h-[300px] w-full bg-gray-100">
-            <img src="${data.thumbnail}"
-                alt="${data.title}" class="w-full h-full object-contain rounded-md">
-        </div>
-        <h3 class="text-sm lg:text-2xl text-start font-semibold">${data.title}</h3>
+      <img src="${data.thumbnail}" alt="${data.title}"
+        class="w-full h-full object-contain rounded-md">
+    </div>
 
-        <p class="text-[12px] lg:text-sm text-start">
-            ${data.description}
-        </p>
+    <h3 class="text-sm lg:text-2xl font-semibold">${data.title}</h3>
 
-        <div class="w-full flex justify-between text-sm font-medium text-gray-600 mt-2">
-            <p>Brand : <span class="text-md font-medium text-black">${data.brand}</span></p>
-            <p>Stock: <span class="text-md font-medium text-black">${data.stock}</span></p>
-        </div>
+    <p class="text-[12px] lg:text-sm">${data.description}</p>
 
+    <div class="w-full flex justify-between text-sm text-gray-600">
+      <p>Brand: <span class="text-black">${data.brand}</span></p>
+      <p>Stock: <span class="text-black">${data.stock}</span></p>
+    </div>
 
-        <div class="w-full flex justify-between text-sm font-medium text-gray-600 mt-2">
-            <p>Warranty : <span class="text-md font-medium text-black">${data.warrantyInformation}</span></p>
-            <p>Rating: <span class="text-md font-medium text-black">${data.rating}</span></p>
-        </div>
+    <div class="w-full flex justify-between text-sm text-gray-600">
+      <p>Warranty: <span class="text-black">${data.warrantyInformation}</span></p>
+      <p>Rating: <span class="text-black">${data.rating}</span></p>
+    </div>
 
+    <div class="w-full flex justify-between items-center mt-4">
+      <div>
+        <p class="text-gray-700">Price</p>
+        <p class="text-2xl font-bold">$${data.price}</p>
+      </div>
 
-        <div class="w-full flex justify-between items-center mt-4">
-            <div>
-                <p class="text-[16px] font-medium text-gray-700">Price</p>
-                <p class="text-xl lg:text-3xl font-bold text-gray-800">$${data.price}</p>
-            </div>
+      <button class="cartBtn bg-blue-600 text-white px-4 py-2 rounded-lg">
+        Add to cart
+      </button>
+    </div>
+  `;
 
-            <button
-                class="cartBtn flex items-center gap-2 bg-blue-600 text-sm lg:text-[16px] text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                <i class="fa-solid fa-cart-arrow-down pointer-events-none"></i> Add to cart
-            </button>
-        </div>`;
-
-
-    return box;
-
+  return box;
 }
 
 
+/*************************************************
+ * SEARCH PRODUCTS FUNCTION
+ * Filters products based on input value
+ *************************************************/
+function searchProducts(query) {
+  const filtered = allProducts.filter(product =>
+    product.title.toLowerCase().includes(query.toLowerCase())
+  );
+
+  ProductCant.innerHTML = "";
+
+  filtered.forEach(product => {
+    ProductCant.appendChild(card(product));
+  });
+}
 
 
+/*************************************************
+ * FETCH PRODUCTS FROM API
+ *************************************************/
 async function getProducts() {
-    try {
+  try {
+    const item = await axios.get("https://dummyjson.com/products");
 
-        const item = await axios.get("https://dummyjson.com/products");
-        allProducts = item.data.products;
-        const products = item.data.products;
-        products.slice(0, 8).forEach(product => {
-            ProductCant.appendChild(card(product))
-        })
-    } catch (err) {
-        console.log(err);
-    }
+    allProducts = item.data.products;
+
+    allProducts.slice(0, 30).forEach(product => {
+      ProductCant.appendChild(card(product));
+    });
+
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 
+/*************************************************
+ * ADD PRODUCT TO CART
+ *************************************************/
+function addToCart(data) {
+  const cartItem = document.createElement('tr');
+  cartItem.className = "cartItem";
 
+  cartItem.innerHTML = `
+    <td>${data.title}</td>
+    <td>${data.price}</td>
+    <td>
+      <button class="removeBtn bg-red-500 text-white px-3 py-2 rounded-md">
+        Remove
+      </button>
+    </td>
+  `;
 
-ProductCant.addEventListener("click", function (e) {   // Event Delegation 
+  // Update total price
+  totalPrice.textContent =
+    `$${(Number(totalPrice.textContent.slice(1)) + data.price).toFixed(2)}`;
 
-    const btn = e.target.closest(".cartBtn");  //
-    if (!btn) return;   // Here we check if the clicked element is not a button then we return without doing anything
+  cartItemCount++;
 
-    // And if it is a button then we find the closest card div using data-id attribute
+  const removeBtn = cartItem.querySelector('.removeBtn');
 
-    const card = btn.closest(".box");       // Here we get the closest parent element with the class 'box' 
-    const productId = Number(card.dataset.id); // Get the product id from data-id attribute and convert it to number
+  removeBtn.addEventListener('click', () => {
+    cartItem.remove();
+    cartItemCount--;
 
-    const productData = allProducts.find(p => p.id === productId); // Find the product data from allProducts array using the id
+    totalPrice.textContent =
+      `$${(Number(totalPrice.textContent.slice(1)) - data.price).toFixed(2)}`;
 
-    addToCart(productData);
     checkCartEmpty();
+  });
+
+  tableBody.appendChild(cartItem);
+}
+
+
+/*************************************************
+ * CHECK IF CART IS EMPTY
+ * Shows / hides total row
+ *************************************************/
+function checkCartEmpty() {
+  if (cartItemCount > 0) {
+    totalRow.classList.remove('hidden');
+  } else {
+    totalRow.classList.add('hidden');
+  }
+}
+
+
+/*************************************************
+ * EVENT DELEGATION FOR ADD TO CART BUTTON
+ *************************************************/
+ProductCant.addEventListener("click", function (e) {
+  const btn = e.target.closest(".cartBtn");
+  if (!btn) return;
+
+  const cardElement = btn.closest(".box");
+  const productId = Number(cardElement.dataset.id);
+
+  const productData = allProducts.find(p => p.id === productId);
+
+  addToCart(productData);
+  checkCartEmpty();
 });
 
 
+/*************************************************
+ * SEARCH INPUT EVENT (DEBOUNCED)
+ *************************************************/
+const debouncedSearch = debounce(searchProducts, 500);
+searchInput.addEventListener("input", e => {
+  debouncedSearch(e.target.value);
+});
 
 
-
-function addToCart(data) {
-    const cartItem = document.createElement('tr');
-    cartItem.className = "cartItem";
-
-    cartItem.innerHTML = `
-       <td>${data.title}</td>
-       <td>${data.price}</td>
-       <td>
-            <button class="removeBtn py-2 px-3 bg-red-500 rounded-md text-white ">Remove</button>
-       </td>
-    `
-
-    totalPrice.textContent = `$${(Number(totalPrice.textContent.slice(1)) + data.price).toFixed(2)}`;
-
-    cartItemCount++;
-
-    const removeBtn = cartItem.querySelector('.removeBtn');
-
-    removeBtn.addEventListener('click', () => {
-        cartItem.remove();
-        cartItemCount--;
-        totalPrice.textContent = `$${(Number(totalPrice.textContent.slice(1)) - data.price).toFixed(2)}`;
-        checkCartEmpty();
-    })
-
-
-
-    tableBody.appendChild(cartItem);
-
-
-    // totalRow.classList.remove('hidden');
-
-}
-
-
-
-
-// onload = function () {
-//     getProducts();
-// }
-
-
-
-function checkCartEmpty() {
-    if (cartItemCount > 0) {
-        totalRow.classList.remove('hidden');
-    } else {
-        totalRow.classList.add('hidden');
-    }
-
-
-}
+/*************************************************
+ * INITIAL LOAD
+ *************************************************/
+window.onload = function () {
+  getProducts();
+};
