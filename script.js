@@ -7,6 +7,8 @@ const tableBody = document.querySelector('.tableBody');
 const totalRow = document.querySelector('.totalRow');
 let totalPrice = document.querySelector('.totalPrice');
 const searchInput = document.querySelector(".searchInput");
+const cartText = document.querySelector(".cartText");
+const table = document.querySelector(".table");
 
 
 /*************************************************
@@ -96,9 +98,13 @@ function searchProducts(query) {
 
   ProductCant.innerHTML = "";
 
-  filtered.forEach(product => {
+  let fitlerProduct = filtered.forEach(product => {
     ProductCant.appendChild(card(product));
   });
+
+  if (filtered.length === 0) {
+    ProductCant.innerHTML = "<p class='text-xl'>No products found :( </p>";
+  }
 }
 
 
@@ -166,9 +172,13 @@ function addToCart(data) {
  *************************************************/
 function checkCartEmpty() {
   if (cartItemCount > 0) {
+    cartText.classList.add('hidden');
     totalRow.classList.remove('hidden');
+    table.classList.remove('hidden');
   } else {
     totalRow.classList.add('hidden');
+    cartText.classList.remove('hidden'); 
+    table.classList.add('hidden');
   }
 }
 
