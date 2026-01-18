@@ -9,6 +9,8 @@ let totalPrice = document.querySelector('.totalPrice');
 const searchInput = document.querySelector(".searchInput");
 const cartText = document.querySelector(".cartText");
 const table = document.querySelector(".table");
+const infoBtn = document.querySelector(".infoBtn");
+const infoIcon = document.querySelector(".infoIcon");
 
 
 /*************************************************
@@ -207,6 +209,31 @@ const debouncedSearch = debounce(searchProducts, 500);
 searchInput.addEventListener("input", e => {
   debouncedSearch(e.target.value);
 });
+
+
+
+/*************************************************
+ * INFO BUTTON FUNCTIONALITY
+ ************************************************/
+
+infoBtn.addEventListener("click", () => {
+
+  console.log("CLicked")
+  infoIcon.classList.toggle("hidden");
+
+  infoBtn.innerHTML = `
+
+    
+    <p class="text-sm lg:text-base ">
+      This is a demo Smart Product Dashboard built using
+      Vanilla JS, Tailwind CSS, and Axios. It fetches
+      product data from a public API and allows users
+      to search products and add them to a cart.
+    </p>
+  `;
+
+
+})
 
 
 /*************************************************
