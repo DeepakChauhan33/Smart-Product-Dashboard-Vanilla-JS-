@@ -179,7 +179,7 @@ function checkCartEmpty() {
     table.classList.remove('hidden');
   } else {
     totalRow.classList.add('hidden');
-    cartText.classList.remove('hidden'); 
+    cartText.classList.remove('hidden');
     table.classList.add('hidden');
   }
 }
@@ -220,17 +220,47 @@ infoBtn.addEventListener("click", () => {
 
   console.log("CLicked")
   infoIcon.classList.toggle("hidden");
+  infoBtn.classList.remove('rounded-full')
+  infoBtn.classList.add('w-1/3','rounded-xl')
 
   infoBtn.innerHTML = `
+    <div class="flex flex-col">
+    <button class="infoRemoveBtn relative top-0 right-0">X</button>
+    <ul>
 
-    
-    <p class="text-sm lg:text-base ">
-      This is a demo Smart Product Dashboard built using
-      Vanilla JS, Tailwind CSS, and Axios. It fetches
-      product data from a public API and allows users
-      to search products and add them to a cart.
-    </p>
+        <li>
+            <ul>
+                <li>Deepak</li>
+                <li>Singh</li>
+                <li>Chauhan</li>
+            </ul> 
+        </li>
+
+        <li>
+            <ul>
+                <li>Deepak</li>
+                <li>Singh</li>
+                <li>Chauhan</li>
+            </ul>
+        </li>
+
+        <li>
+            <ul>
+                <li>Deepak</li>
+                <li>Singh</li>
+                <li>Chauhan</li>
+            </ul>
+        </li>
+        
+    </ul>
+</div>
   `;
+
+  const infoRemoveBtn = document.querySelector('.infoRemoveBtn');
+
+  infoRemoveBtn.addEventListener('click', () => {
+    console.log(123)
+  })
 
 
 })
@@ -239,6 +269,6 @@ infoBtn.addEventListener("click", () => {
 /*************************************************
  * INITIAL LOAD
  *************************************************/
-window.onload = function () {
-  getProducts();
-};
+// window.onload = function () {
+//   getProducts();
+// };
