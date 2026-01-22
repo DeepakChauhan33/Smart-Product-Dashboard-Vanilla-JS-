@@ -168,10 +168,10 @@ function addToCart(data) {
 }
 
 
-/*************************************************
- * CHECK IF CART IS EMPTY
- * Shows / hides total row
- *************************************************/
+
+// CHECK IF CART IS EMPTY
+// Shows / hides total row
+
 function checkCartEmpty() {
   if (cartItemCount > 0) {
     cartText.classList.add('hidden');
@@ -185,9 +185,8 @@ function checkCartEmpty() {
 }
 
 
-/*************************************************
- * EVENT DELEGATION FOR ADD TO CART BUTTON
- *************************************************/
+// EVENT DELEGATION FOR ADD TO CART BUTTON
+
 ProductCant.addEventListener("click", function (e) {
   const btn = e.target.closest(".cartBtn");
   if (!btn) return;
@@ -202,9 +201,9 @@ ProductCant.addEventListener("click", function (e) {
 });
 
 
-/*************************************************
- * SEARCH INPUT EVENT (DEBOUNCED)
- *************************************************/
+
+//SEARCH INPUT EVENT (DEBOUNCED)
+
 const debouncedSearch = debounce(searchProducts, 500);
 searchInput.addEventListener("input", e => {
   debouncedSearch(e.target.value);
@@ -212,46 +211,59 @@ searchInput.addEventListener("input", e => {
 
 
 
-/*************************************************
- * INFO BUTTON FUNCTIONALITY
- ************************************************/
+
+// INFO BUTTON FUNCTIONALITY
+
 
 infoBtn.addEventListener("click", () => {
 
   console.log("CLicked")
   infoIcon.classList.toggle("hidden");
   infoBtn.classList.remove('rounded-full')
-  infoBtn.classList.add('w-1/3','rounded-xl')
+  infoBtn.classList.add('w-1/3', 'rounded-xl')
 
   infoBtn.innerHTML = `
-    <div class="flex flex-col">
-    <button class="infoRemoveBtn relative top-0 right-0">X</button>
+    <button class="infoRemoveBtninfoRemoveBtn h-10 w-10 absolute top-2 -left-12 border border-red-400 rounded-full p-[2px] bg-red-300 text-red-400"><i class="fa-solid fa-xmark"></i></button>
+    <div class="flex flex-col relative max-h-[400px] overflow-y-auto pr-4  ">
+    
     <ul>
 
         <li>
-            <ul>
-                <li>Deepak</li>
-                <li>Singh</li>
-                <li>Chauhan</li>
-            </ul> 
+            <h3 class="text-lg font-bold">Debouncing in JavaScript</h3>
+            <p class="text-md">
+                Debouncing is used in the search feature to delay execution until the user stops typing.
+                This prevents unnecessary function calls on every keystroke and improves performance.
+                In this project, debouncing ensures product filtering happens only after a pause in input.
+            </p>
         </li>
 
         <li>
-            <ul>
-                <li>Deepak</li>
-                <li>Singh</li>
-                <li>Chauhan</li>
-            </ul>
+            <h3 class="text-lg font-bold">Event Delegation</h3>
+            <p class="text-md">
+                Event delegation is applied on the product container to handle all “Add to Cart” button clicks.
+                Instead of attaching events to each card, a single listener manages dynamic elements efficiently.
+                This makes the application scalable and easier to maintain.
+            </p>
         </li>
 
         <li>
-            <ul>
-                <li>Deepak</li>
-                <li>Singh</li>
-                <li>Chauhan</li>
-            </ul>
+            <h3 class="text-lg font-bold">Debouncing in JavaScript</h3>
+            <p class="text-md">
+                Debouncing is used in the search feature to delay execution until the user stops typing.
+                This prevents unnecessary function calls on every keystroke and improves performance.
+                In this project, debouncing ensures product filtering happens only after a pause in input.
+            </p>
         </li>
-        
+
+        <li>
+            <h3 class="text-lg font-bold">Debouncing in JavaScript</h3>
+            <p class="text-md">
+                Debouncing is used in the search feature to delay execution until the user stops typing.
+                This prevents unnecessary function calls on every keystroke and improves performance.
+                In this project, debouncing ensures product filtering happens only after a pause in input.
+            </p>
+        </li>
+
     </ul>
 </div>
   `;
@@ -259,16 +271,21 @@ infoBtn.addEventListener("click", () => {
   const infoRemoveBtn = document.querySelector('.infoRemoveBtn');
 
   infoRemoveBtn.addEventListener('click', () => {
-    console.log(123)
+    infoBtn.innerHTML = `
+      <div
+        class="  border z-20 fixed right-6 bottom-12 p-2 rounded-full bg-gray-200 text-gray-600 mb-2 cursor-pointer  hover:bg-gray-300 hover:text-gray-800 transition duration-300 ">
+        <i class="infoIcon fa-solid fa-circle-info"></i>
+    </div>
+    `
   })
 
 
 })
 
 
-/*************************************************
- * INITIAL LOAD
- *************************************************/
-// window.onload = function () {
-//   getProducts();
-// };
+
+// LOAD
+
+window.onload = function () {
+  getProducts();
+};
