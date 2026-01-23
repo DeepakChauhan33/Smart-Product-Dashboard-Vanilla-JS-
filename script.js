@@ -15,8 +15,7 @@ const infoIcon = document.querySelector(".infoIcon");
 
 
 let cartItemCount = 0;
-let allProducts = []; // Stores all fetched products (used for search & cart)
-
+let allProducts = []; // Stores all fetched products 
 
 
 // DEBOUNCE FUNCTION
