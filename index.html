@@ -20,15 +20,15 @@
 
 </head>
 
-<body class="py-6 px-16">
+<body class="py-6 px-7 md:px-10 lg:px-16 ">
 
-    <h1 class="text-center text-5xl font-bold">SMART CART</h1>
+    <h1 class="text-center text-4xl md:text-2xl lg:text-5xl font-bold">SMART CART</h1>
 
     <!-- Search Bar -->
 
-    <div class=" p-5 flex justify-around mt-10">
+    <div class="w-full p-2 mt-3 lg:p-5 flex justify-around lg:mt-10 gap-2">
 
-        <div class="relative w-[80%]">
+        <div class="relative md:w-[80%]">
 
             <span class="absolute inset-y-0 left-2 flex items-center text-gray-400">
                 <i class="fa-solid fa-magnifying-glass"></i>
@@ -38,8 +38,14 @@
         </div>
 
         <button
-            class="loadBtn border px-2 py-2 lg:px-4 lg:py-2 bg-red-400 rounded-[10px] text-sm font-normal lg:text-[16px] lg:font-bold text-white hover:bg-red-500 ">Load
-            Products</button>
+            class="loadBtn hidden md:block border p-2 lg:px-4 lg:py-2 bg-red-400 rounded-[10px] text-[12px] font-normal lg:text-[16px] lg:font-bold text-white hover:bg-red-500 ">
+            Load Products
+        </button>
+
+        <button
+            class="loadBtn block md:hidden border px-3 py-2 lg:px-4 lg:py-2 bg-red-400 rounded-[10px] text-[12px] font-normal lg:text-[16px] lg:font-bold text-white hover:bg-red-500 ">
+            Search
+        </button>
 
 
     </div>
@@ -47,10 +53,10 @@
 
     <!-- Product Section -->
 
-    <section class="border-t-2 border-black mt-10 pt-6 min-h-[50vh]">
+    <section class="border-t-2 border-black lg:mt-10 pt-6 min-h-[50vh]">
         <div
             class="productCant grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center place-items-center">
-            <!-- Product Cards will be appended here dynamically -->
+
 
         </div>
     </section>
@@ -100,9 +106,9 @@
 
     </footer>
 
-    <div
-        class="infoBtn  border z-20 fixed right-6 bottom-12 p-2 rounded-full bg-gray-200 text-gray-600 mb-2 cursor-pointer  hover:bg-gray-300 hover:text-gray-800 transition duration-300 ">
-        <i class="infoIcon fa-solid fa-circle-info"></i>
+    <div title="Project Infomation"
+        class="infoBtn  border z-20 fixed right-6 bottom-12 p-2 rounded-full bg-white  text-gray-600 mb-2 cursor-pointer  hover:bg-gray-300 hover:text-gray-800 transition duration-300 ">
+        <i class="infoIcon fa-solid fa-circle-info text-xl"></i>
     </div>
 
 
@@ -120,47 +126,3 @@
 </body>
 
 </html>
-
-
-<!-- <div class="flex flex-col relative max-h-[200px] overflow-y-auto">
-    <button class="infoRemoveBtninfoRemoveBtn absolute top-3 right-4 text-red-400">X</button>
-    <ul>
-
-        <li>
-            <h3 class="text-lg font-bold">Debouncing in JavaScript</h3>
-            <p class="text-md">
-                Debouncing is used in the search feature to delay execution until the user stops typing.
-                This prevents unnecessary function calls on every keystroke and improves performance.
-                In this project, debouncing ensures product filtering happens only after a pause in input.
-            </p>
-        </li>
-
-        <li>
-            <h3 class="text-lg font-bold">Event Delegation</h3>
-            <p class="text-md">
-                Event delegation is applied on the product container to handle all “Add to Cart” button clicks.
-                Instead of attaching events to each card, a single listener manages dynamic elements efficiently.
-                This makes the application scalable and easier to maintain.
-            </p>
-        </li>
-
-        <li>
-            <h3 class="text-lg font-bold">Asynchronous JavaScript</h3>
-            <p class="text-md">
-                Asynchronous JavaScript is used to fetch product data from an external API using async/await.
-                This allows data to load without blocking the main thread or freezing the UI.
-                Error handling is managed using try...catch for reliable execution.
-            </p>
-        </li>
-
-        <li>
-            <h3 class="text-lg font-bold">Core JavaScript & Execution Flow</h3>
-            <p class="text-md">
-                This project demonstrates JavaScript execution flow, closures, and state management.
-                Application state (products, cart, total price) is maintained using JavaScript variables.
-                DOM updates reflect state changes without reloading the page.
-            </p>
-        </li>
-
-    </ul>
-</div> -->

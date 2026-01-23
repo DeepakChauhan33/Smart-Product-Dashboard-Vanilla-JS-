@@ -1,6 +1,6 @@
-/*************************************************
- * DOM ELEMENT REFERENCES
- *************************************************/
+
+// DOM ELEMENT REFERENCES
+
 const ProductCant = document.querySelector('.productCant');
 const loadBtn = document.querySelector('.loadBtn');
 const tableBody = document.querySelector('.tableBody');
@@ -13,17 +13,14 @@ const infoBtn = document.querySelector(".infoBtn");
 const infoIcon = document.querySelector(".infoIcon");
 
 
-/*************************************************
- * GLOBAL STATE VARIABLES
- *************************************************/
+
 let cartItemCount = 0;
 let allProducts = []; // Stores all fetched products (used for search & cart)
 
 
-/*************************************************
- * DEBOUNCE UTILITY FUNCTION
- * Prevents excessive function calls (search input)
- *************************************************/
+
+// DEBOUNCE FUNCTION
+
 function debounce(fn, delay) {
   let timer;
 
@@ -36,10 +33,9 @@ function debounce(fn, delay) {
 }
 
 
-/*************************************************
- * PRODUCT CARD CREATION FUNCTION
- * Creates and returns a product card DOM element
- *************************************************/
+
+// PRODUCT CARD CREATION FUNCTION
+
 function card(data) {
   const box = document.createElement('div');
 
@@ -50,7 +46,8 @@ function card(data) {
     'w-[350px]', 'lg:w-[450px]', 'gap-2', 'lg:gap-4'
   );
 
-  // Store product ID for Event Delegation
+  // Store product ID for Event Delegatio
+  
   box.dataset.id = data.id;
 
   box.innerHTML = `
@@ -89,10 +86,10 @@ function card(data) {
 }
 
 
-/*************************************************
- * SEARCH PRODUCTS FUNCTION
- * Filters products based on input value
- *************************************************/
+
+// SEARCH PRODUCTS FUNCTION
+// Filters products based on input value
+
 function searchProducts(query) {
   const filtered = allProducts.filter(product =>
     product.title.toLowerCase().includes(query.toLowerCase())
@@ -110,9 +107,9 @@ function searchProducts(query) {
 }
 
 
-/*************************************************
- * FETCH PRODUCTS FROM API
- *************************************************/
+
+// FETCH PRODUCTS FROM API
+
 async function getProducts() {
   try {
     const item = await axios.get("https://dummyjson.com/products");
@@ -129,9 +126,9 @@ async function getProducts() {
 }
 
 
-/*************************************************
- * ADD PRODUCT TO CART
- *************************************************/
+
+// ADD PRODUCT TO CART
+
 function addToCart(data) {
   const cartItem = document.createElement('tr');
   cartItem.className = "cartItem";
@@ -215,20 +212,28 @@ searchInput.addEventListener("input", e => {
 // INFO BUTTON FUNCTIONALITY
 
 
+
+const originalHTML = infoBtn.innerHTML;
+
 infoBtn.addEventListener("click", () => {
 
-  console.log("CLicked")
-  infoIcon.classList.toggle("hidden");
-  infoBtn.classList.remove('rounded-full')
-  infoBtn.classList.add('w-1/3', 'rounded-xl')
+  if (infoBtn.classList.contains('open')) return;
+
+  infoBtn.classList.add('open');
+  infoBtn.classList.remove('rounded-full');
+  infoBtn.classList.add('w-1/3', 'rounded-xl', 'border-1', 'shadow-xl', 'border-2', 'border-gray-900');
 
   infoBtn.innerHTML = `
-    <button class="infoRemoveBtninfoRemoveBtn h-10 w-10 absolute top-2 -left-12 border border-red-400 rounded-full p-[2px] bg-red-300 text-red-400"><i class="fa-solid fa-xmark"></i></button>
-    <div class="flex flex-col relative max-h-[400px] overflow-y-auto pr-4  ">
-    
-    <ul>
+    <button class="infoRemoveBtn h-10 w-10 absolute top-2 -left-12
+      border border-red-400 rounded-full bg-red-300 text-red-600">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
 
-        <li>
+  <div class="flex flex-col relative max-h-[400px] overflow-y-auto pr-4 p-2 ">
+    
+    <ul class="space-y-2">
+
+        <li class="bg-gray-300/50 px-2 py-3 space-y-1  rounded-md">
             <h3 class="text-lg font-bold">Debouncing in JavaScript</h3>
             <p class="text-md">
                 Debouncing is used in the search feature to delay execution until the user stops typing.
@@ -237,7 +242,7 @@ infoBtn.addEventListener("click", () => {
             </p>
         </li>
 
-        <li>
+        <li class="bg-gray-300/20 px-2 py-3 space-y-1  rounded-md">
             <h3 class="text-lg font-bold">Event Delegation</h3>
             <p class="text-md">
                 Event delegation is applied on the product container to handle all “Add to Cart” button clicks.
@@ -246,41 +251,37 @@ infoBtn.addEventListener("click", () => {
             </p>
         </li>
 
-        <li>
-            <h3 class="text-lg font-bold">Debouncing in JavaScript</h3>
+        <li class="bg-gray-300/50 px-2 py-3 space-y-1  rounded-md">
+            <h3 class="text-lg font-bold">Asynchronous JavaScript</h3>
             <p class="text-md">
-                Debouncing is used in the search feature to delay execution until the user stops typing.
-                This prevents unnecessary function calls on every keystroke and improves performance.
-                In this project, debouncing ensures product filtering happens only after a pause in input.
+                Asynchronous JavaScript is used to fetch product data from an external API using async/await.
+                This allows data to load without blocking the main thread or freezing the UI.
+                Error handling is managed using try...catch for reliable execution.
             </p>
         </li>
 
-        <li>
-            <h3 class="text-lg font-bold">Debouncing in JavaScript</h3>
+        <li class="bg-gray-300/20 px-2 py-3 space-y-1  rounded-md">
+            <h3 class="text-lg font-bold">Core JavaScript & Execution Flow</h3>
             <p class="text-md">
-                Debouncing is used in the search feature to delay execution until the user stops typing.
-                This prevents unnecessary function calls on every keystroke and improves performance.
-                In this project, debouncing ensures product filtering happens only after a pause in input.
+                This project demonstrates JavaScript execution flow, closures, and state management.
+                Application state (products, cart, total price) is maintained using JavaScript variables.
+                DOM updates reflect state changes without reloading the page.
             </p>
         </li>
 
     </ul>
 </div>
   `;
-
-  const infoRemoveBtn = document.querySelector('.infoRemoveBtn');
-
-  infoRemoveBtn.addEventListener('click', () => {
-    infoBtn.innerHTML = `
-      <div
-        class="  border z-20 fixed right-6 bottom-12 p-2 rounded-full bg-gray-200 text-gray-600 mb-2 cursor-pointer  hover:bg-gray-300 hover:text-gray-800 transition duration-300 ">
-        <i class="infoIcon fa-solid fa-circle-info"></i>
-    </div>
-    `
-  })
+});
 
 
-})
+infoBtn.addEventListener('click', (e) => {
+  if (e.target.closest('.infoRemoveBtn')) {
+    infoBtn.innerHTML = originalHTML;
+    infoBtn.classList.remove('open', 'w-1/3', 'rounded-xl');
+    infoBtn.classList.add('rounded-full');
+  }
+});
 
 
 
