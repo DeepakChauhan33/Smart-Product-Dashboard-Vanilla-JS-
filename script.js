@@ -33,7 +33,6 @@ function debounce(fn, delay) {
 }
 
 
-
 // PRODUCT CARD CREATION FUNCTION
 
 function card(data) {
@@ -47,7 +46,7 @@ function card(data) {
   );
 
   // Store product ID for Event Delegatio
-  
+
   box.dataset.id = data.id;
 
   box.innerHTML = `
@@ -221,7 +220,7 @@ infoBtn.addEventListener("click", () => {
 
   infoBtn.classList.add('open');
   infoBtn.classList.remove('rounded-full');
-  infoBtn.classList.add('w-1/3', 'rounded-xl', 'border-1', 'shadow-xl', 'border-2', 'border-gray-900');
+  infoBtn.classList.add('rounded-xl', 'border-1', 'shadow-xl', 'border-2', 'border-gray-900');
 
   infoBtn.innerHTML = `
     <button class="infoRemoveBtn h-10 w-10 absolute top-2 -left-12
@@ -229,7 +228,7 @@ infoBtn.addEventListener("click", () => {
       <i class="fa-solid fa-xmark"></i>
     </button>
 
-  <div class="flex flex-col relative max-h-[400px] overflow-y-auto pr-4 p-2 ">
+  <div class="flex flex-col relative max-h-[400px] w-[300px] lg:w-[500px] overflow-y-auto pr-4 p-2 ">
     
     <ul class="space-y-2">
 
